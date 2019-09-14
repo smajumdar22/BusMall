@@ -1,6 +1,5 @@
 'use strict';
 
-// render two images to the DOM
 var votesRemaining = 25;
 
 var busMallContainerEl = document.getElementById('busmall-container');
@@ -11,42 +10,47 @@ var busMallOneEl = document.getElementById('busmall-1');
 var busMallTwoEl = document.getElementById('busmall-2');
 var busMallThreeEl = document.getElementById('busmall-3');
 
-
+var topBusMallImgEl = document.getElementById('top-busmall')
 var allBusMall = [];
 
 function busMall(name){
   this.name = name;
-  this.filepath = `img/${name}.jpg`;
+  this.filepath = `img/${name}`;
   this.votes = 0;
   this.views = 0;
 
   allBusMall.push(this);
 }
 
-new busMall('bag');
-new busMall('banana');
-new busMall('bathroom');
-new busMall('boots');
-new busMall('breakfast');
-new busMall('bubblegum');
-new busMall('chair');
-new busMall('cthulhu');
-new busMall('dog-duck');
-new busMall('dragon');
-new busMall('pen');
-new busMall('pet-sweep');
-new busMall('scissors');
-new busMall('shark');
-new busMall('sweep');
-new busMall('tauntaun');
-new busMall('unicorn');
-new busMall('usb');
-new busMall('water-can');
-new busMall('wine-glass');
+new busMall('bag.jpg');
+new busMall('banana.jpg');
+new busMall('bathroom.jpg');
+new busMall('boots.jpg');
+new busMall('breakfast.jpg');
+new busMall('bubblegum.jpg');
+new busMall('chair.jpg');
+new busMall('cthulhu.jpg');
+new busMall('dog-duck.jpg');
+new busMall('dragon.jpg');
+new busMall('pen.jpg');
+new busMall('pet-sweep.jpg');
+new busMall('scissors.jpg');
+new busMall('shark.jpg');
+new busMall('sweep.png');
+new busMall('tauntaun.jpg');
+new busMall('unicorn.jpg');
+new busMall('usb.gif');
+new busMall('water-can.jpg');
+new busMall('wine-glass.jpg');
+
 
 
 
 var recentRandomNumbers = [];
+
+function random(min, max){
+  return Math.floor(Math.random() * (max - min +1) + min);
+}
 
 function render(){
 
@@ -56,11 +60,11 @@ function render(){
     randomIndex = random(0, allBusMall.length-1);
   }
 
+  recentRandomNumbers.push(randomIndex);
+
   if(recentRandomNumbers.length > 3){
     recentRandomNumbers.shift();
   }
-
-  recentRandomNumbers.push(randomIndex);
 
   allBusMall[randomIndex].views++;
 
@@ -68,11 +72,12 @@ function render(){
   busMallOneEl.alt = allBusMall[randomIndex].name;
   busMallOneEl.title = allBusMall[randomIndex].name;
 
-  var randomIndex = random(0, allBusMall.length-1);
 
   while(recentRandomNumbers.includes(randomIndex)){
     randomIndex = random(0, allBusMall.length-1);
   }
+
+  recentRandomNumbers.push(randomIndex);
 
   if(recentRandomNumbers.length > 3){
     recentRandomNumbers.shift();
@@ -84,11 +89,13 @@ function render(){
   busMallTwoEl.alt = allBusMall[randomIndex].name;
   busMallTwolEl.title = allBusMall[randomIndex].name;
   
-  var randomIndex = random(0, allBusMall.length-1);
+   randomIndex = random(0, allBusMall.length-1);
 
   while(recentRandomNumbers.includes(randomIndex)){
     randomIndex = random(0, allBusMall.length-1);
   }
+
+  recentRandomNumbers.push(randomIndex);
 
   if(recentRandomNumbers.length > 3){
     recentRandomNumbers.shift();
@@ -103,29 +110,25 @@ function render(){
 
 
 
-function random(min, max){
-  return Math.floor(Math.random() * (max - min +1) + min);
-}
-
 function renderBestBusMall(){
-  // create an element
-  // add content
-  // append to the parent
-
   var bestBusMall;
   var temp = 0;
+  var topImg;
 
   for(var i = 0; i < allBusMall.length; i++){
     if(allBusMall[i].votes > temp){
       temp = allBusMall[i].votes;
-      bestBusMall = allBusMall[i];
+      bestBusMall = allBusMall[i].name;
+      topImg = allBusMall[i].filepath;
     }
   }
 
 
   var h2El = document.createElement('h2');
-  h2El.textContent = `The Best BusMall is ${bestBusMall.name} with ${bestBusMall.votes} votes.`;
+  h2El.textContent = `The Best BusMall is ${bestBusMall} with ${temp} votes.`;
   resultsEl.appendChild(h2El);
+
+  topImgEl.filepath= topImg;
 }
 
 busMallContainerEl.addEventListener('click', handleClick);
@@ -139,7 +142,6 @@ function handleClick(e){
 
   if(votesRemaining === 0){
     busMallContainerEl.removeEventListener('click', handleClick);
-    // render the results to the DOM
     renderBestBusMall();
   }
 
