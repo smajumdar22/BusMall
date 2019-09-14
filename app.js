@@ -62,7 +62,7 @@ function render(){
 
   recentRandomNumbers.push(randomIndex);
 
-  if(recentRandomNumbers.length > 3){
+  if(recentRandomNumbers.length > 6){
     recentRandomNumbers.shift();
   }
 
@@ -79,7 +79,7 @@ function render(){
 
   recentRandomNumbers.push(randomIndex);
 
-  if(recentRandomNumbers.length > 3){
+  if(recentRandomNumbers.length > 6){
     recentRandomNumbers.shift();
   }
 
@@ -87,7 +87,7 @@ function render(){
 
   busMallTwoEl.src = allBusMall[randomIndex].filepath;
   busMallTwoEl.alt = allBusMall[randomIndex].name;
-  busMallTwolEl.title = allBusMall[randomIndex].name;
+  busMallTwoEl.title = allBusMall[randomIndex].name;
   
    randomIndex = random(0, allBusMall.length-1);
 
@@ -97,7 +97,7 @@ function render(){
 
   recentRandomNumbers.push(randomIndex);
 
-  if(recentRandomNumbers.length > 3){
+  if(recentRandomNumbers.length > 6){
     recentRandomNumbers.shift();
   }
 
