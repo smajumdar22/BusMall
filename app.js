@@ -1,6 +1,6 @@
 'use strict';
 
-var votesRemaining = 5;
+var votesRemaining = 25;
 
 var canvasEl = document.getElementById('my-canvas');
 
