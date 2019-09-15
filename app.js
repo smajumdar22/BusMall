@@ -1,6 +1,6 @@
 'use strict';
 
-var votesRemaining = 25;
+var votesRemaining = 5;
 
 var canvasEl = document.getElementById('my-canvas');
 
@@ -12,10 +12,10 @@ var busMallOneEl = document.getElementById('busmall-1');
 var busMallTwoEl = document.getElementById('busmall-2');
 var busMallThreeEl = document.getElementById('busmall-3');
 
-var topBusMallImgEl = document.getElementById('top-busmall')
+var topBusMallImgEl = document.getElementById('top-busmall');
 var allBusMall = [];
 
-function busMall(name){
+function BusMall(name){
   this.name = name;
   this.filepath = `img/${name}`;
   this.votes = 0;
@@ -24,26 +24,26 @@ function busMall(name){
   allBusMall.push(this);
 }
 
-new busMall('bag.jpg');
-new busMall('banana.jpg');
-new busMall('bathroom.jpg');
-new busMall('boots.jpg');
-new busMall('breakfast.jpg');
-new busMall('bubblegum.jpg');
-new busMall('chair.jpg');
-new busMall('cthulhu.jpg');
-new busMall('dog-duck.jpg');
-new busMall('dragon.jpg');
-new busMall('pen.jpg');
-new busMall('pet-sweep.jpg');
-new busMall('scissors.jpg');
-new busMall('shark.jpg');
-new busMall('sweep.png');
-new busMall('tauntaun.jpg');
-new busMall('unicorn.jpg');
-new busMall('usb.gif');
-new busMall('water-can.jpg');
-new busMall('wine-glass.jpg');
+new BusMall('bag.jpg');
+new BusMall('banana.jpg');
+new BusMall('bathroom.jpg');
+new BusMall('boots.jpg');
+new BusMall('breakfast.jpg');
+new BusMall('bubblegum.jpg');
+new BusMall('chair.jpg');
+new BusMall('cthulhu.jpg');
+new BusMall('dog-duck.jpg');
+new BusMall('dragon.jpg');
+new BusMall('pen.jpg');
+new BusMall('pet-sweep.jpg');
+new BusMall('scissors.jpg');
+new BusMall('shark.jpg');
+new BusMall('sweep.png');
+new BusMall('tauntaun.jpg');
+new BusMall('unicorn.jpg');
+new BusMall('usb.gif');
+new BusMall('water-can.jpg');
+new BusMall('wine-glass.jpg');
 
 
 
@@ -90,8 +90,8 @@ function render(){
   busMallTwoEl.src = allBusMall[randomIndex].filepath;
   busMallTwoEl.alt = allBusMall[randomIndex].name;
   busMallTwoEl.title = allBusMall[randomIndex].name;
-  
-   randomIndex = random(0, allBusMall.length-1);
+
+  randomIndex = random(0, allBusMall.length-1);
 
   while(recentRandomNumbers.includes(randomIndex)){
     randomIndex = random(0, allBusMall.length-1);
@@ -127,10 +127,15 @@ function renderBestBusMall(){
 
 
   var h2El = document.createElement('h2');
-  h2El.textContent = `The Best BusMall is ${bestBusMall} with ${temp} votes.`;
+  h2El.textContent = `The Best BusMall is ${bestBusMall} ${topImg} with ${temp} votes.`;
   resultsEl.appendChild(h2El);
 
-  topImgEl.filepath= topImg;
+  topBusMallImgEl.src = allBusMall.filepath;
+  topBusMallImgEl.alt = allBusMall.name;
+  topBusMallImgEl.title = allBusMall.name;
+
+
+  //var topImgEl.filepath= topImg;
 }
 
 busMallContainerEl.addEventListener('click', handleClick);
@@ -170,50 +175,50 @@ function renderChart(){
 
 
   var ctx = canvasEl.getContext('2d');
-  
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: namesArray, // names of each object
-          
-          datasets: [{
-              label: '# of Votes',
-              data: votesArray, // number of votes for each object
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: namesArray, // names of each object
+
+      datasets: [{
+        label: '# of Votes',
+        data: votesArray, // number of votes for each object
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
           }
+        }]
       }
+    }
   });
 
 }
