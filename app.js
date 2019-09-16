@@ -185,7 +185,6 @@ function renderChart(){
 
   }
 
-  // eslint-disable-next-line no-undef
   new Chart(ctx, {
     type: 'bar',
     data: {
