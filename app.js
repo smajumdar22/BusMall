@@ -136,6 +136,8 @@ function renderBestBusMall(){
 
 
   //var topImgEl.filepath= topImg;
+
+  renderChart();
 }
 
 busMallContainerEl.addEventListener('click', handleClick);
@@ -164,20 +166,28 @@ function handleClick(e){
 
 render();
 
-function renderChart(){
-  var namesArray = [];
-  var votesArray = [];
+var ctx = canvasEl.getContext('2d');
 
-  for(var i = 0; i < allBusMall.length; i++){
-    namesArray.push(allBusMall[i].name);
-    votesArray.push(allBusMall[i].votes);
+var namesArray = [];
+var votesArray = [];
+
+function renderChart(){
+
+  if(votesRemaining === 0){
+
+    for(var i = 0; i < allBusMall.length; i++){
+      if (allBusMall[i].votes > 0){
+
+        namesArray.push(allBusMall[i].name);
+        votesArray.push(allBusMall[i].votes);
+      }
+    }
+
   }
 
-
-  var ctx = canvasEl.getContext('2d');
-
+  // eslint-disable-next-line no-undef
   new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
       labels: namesArray, // names of each object
 
@@ -223,4 +233,4 @@ function renderChart(){
 
 }
 
-renderChart();
+//renderChart();
