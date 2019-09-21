@@ -15,7 +15,7 @@ var busMallThreeEl = document.getElementById('busmall-3');
 var topBusMallImgEl = document.getElementById('top-busmall');
 var allBusMall = [];
 
-function BusMall(name){
+function BusMall(name) {
   this.name = name;
   this.filepath = `img/${name}`;
   this.votes = 0;
@@ -46,25 +46,23 @@ new BusMall('water-can.jpg');
 new BusMall('wine-glass.jpg');
 
 
-
-
 var recentRandomNumbers = [];
 
-function random(min, max){
-  return Math.floor(Math.random() * (max - min +1) + min);
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function render(){
+function render() {
 
-  var randomIndex = random(0, allBusMall.length-1);
+  var randomIndex = random(0, allBusMall.length - 1);
 
-  while(recentRandomNumbers.includes(randomIndex)){
-    randomIndex = random(0, allBusMall.length-1);
+  while (recentRandomNumbers.includes(randomIndex)) {
+    randomIndex = random(0, allBusMall.length - 1);
   }
 
   recentRandomNumbers.push(randomIndex);
 
-  if(recentRandomNumbers.length > 6){
+  if (recentRandomNumbers.length > 6) {
     recentRandomNumbers.shift();
   }
 
@@ -75,13 +73,13 @@ function render(){
   busMallOneEl.title = allBusMall[randomIndex].name;
 
 
-  while(recentRandomNumbers.includes(randomIndex)){
-    randomIndex = random(0, allBusMall.length-1);
+  while (recentRandomNumbers.includes(randomIndex)) {
+    randomIndex = random(0, allBusMall.length - 1);
   }
 
   recentRandomNumbers.push(randomIndex);
 
-  if(recentRandomNumbers.length > 6){
+  if (recentRandomNumbers.length > 6) {
     recentRandomNumbers.shift();
   }
 
@@ -91,15 +89,15 @@ function render(){
   busMallTwoEl.alt = allBusMall[randomIndex].name;
   busMallTwoEl.title = allBusMall[randomIndex].name;
 
-  randomIndex = random(0, allBusMall.length-1);
+  randomIndex = random(0, allBusMall.length - 1);
 
-  while(recentRandomNumbers.includes(randomIndex)){
-    randomIndex = random(0, allBusMall.length-1);
+  while (recentRandomNumbers.includes(randomIndex)) {
+    randomIndex = random(0, allBusMall.length - 1);
   }
 
   recentRandomNumbers.push(randomIndex);
 
-  if(recentRandomNumbers.length > 6){
+  if (recentRandomNumbers.length > 6) {
     recentRandomNumbers.shift();
   }
 
@@ -110,15 +108,13 @@ function render(){
   busMallThreeEl.title = allBusMall[randomIndex].name;
 }
 
-
-
-function renderBestBusMall(){
+function renderBestBusMall() {
   var bestBusMall;
   var temp = 0;
   var topImg;
 
-  for(var i = 0; i < allBusMall.length; i++){
-    if(allBusMall[i].votes > temp){
+  for (var i = 0; i < allBusMall.length; i++) {
+    if (allBusMall[i].votes > temp) {
       temp = allBusMall[i].votes;
       bestBusMall = allBusMall[i].name;
       topImg = allBusMall[i].filepath;
@@ -134,36 +130,36 @@ function renderBestBusMall(){
   topBusMallImgEl.alt = allBusMall.name;
   topBusMallImgEl.title = allBusMall.name;
 
-
   //var topImgEl.filepath= topImg;
 
   renderChart();
+
 }
+
 
 busMallContainerEl.addEventListener('click', handleClick);
 
-function handleClick(e){
+function handleClick(e) {
   var busMallName = e.target.title;
 
-  if(e.target.id === 'busmall-container'){
+  if (e.target.id === 'busmall-container') {
     alert('click a busmall!');
   }
 
-  if(votesRemaining === 0){
+  if (votesRemaining === 0) {
     busMallContainerEl.removeEventListener('click', handleClick);
     renderBestBusMall();
   }
 
-  for(var i = 0; i < allBusMall.length; i++){
-    if(busMallName === allBusMall[i].name){
+  for (var i = 0; i < allBusMall.length; i++) {
+    if (busMallName === allBusMall[i].name) {
       allBusMall[i].votes++;
       votesRemaining--;
     }
   }
   render();
+
 }
-
-
 render();
 
 var ctx = canvasEl.getContext('2d');
@@ -171,17 +167,18 @@ var ctx = canvasEl.getContext('2d');
 var namesArray = [];
 var votesArray = [];
 
-function renderChart(){
+function renderChart() {
 
-  if(votesRemaining === 0){
+  if (votesRemaining === 0) {
 
-    for(var i = 0; i < allBusMall.length; i++){
-      if (allBusMall[i].votes > 0){
+    for (var i = 0; i < allBusMall.length; i++) {
+      if (allBusMall[i].votes > 0) {
 
         namesArray.push(allBusMall[i].name);
         votesArray.push(allBusMall[i].votes);
       }
     }
+
 
   }
 
@@ -229,5 +226,32 @@ function renderChart(){
       }
     }
   });
+  locStorBusMall();
+}
+
+function locStorBusMall() {
+
+  //Stringify BusMall
+  var stringifyedBusMall = JSON.stringify(allBusMall);
+  console.log('My stringifyed BusMall is' + stringifyedBusMall);
+  //Store it in local storage
+  localStorage.setItem('BusMall', stringifyedBusMall);
+  console.log('SetItem storage' + localStorage);
+}
+
+var localStorageBusMall = localStorage.getItem('BusMall');
+console.log('GetItem storage' + localStorageBusMall);
+
+var parsedBusMall = JSON.parse(localStorageBusMall);
+console.log('Parsed BusMall' + parsedBusMall);
+
+if (localStorageBusMall) {
+  allBusMall = parsedBusMall;
+} else {
+  allBusMall = [];
 
 }
+console.log('All bus Mall' + parsedBusMall);
+
+
+
