@@ -54,29 +54,6 @@ function random(min, max) {
 
 function render() {
 
-  createBusMall(busMallOneEl);
-  createBusMall(busMallTwoEl);
-  createBusMall(busMallThreeEl);
-
-}
-
-function createBusMall(domEl) {
-  var createIndex = createFinalIndex();
-
-  allBusMall[createIndex].views++;
-
-  attachToDom(createIndex, domEl);
-}
-
-function attachToDom(randomIndex, domEl) {
-
-  domEl.src = allBusMall[randomIndex].filepath;
-  domEl.alt = allBusMall[randomIndex].name;
-  domEl.title = allBusMall[randomIndex].name;
-
-}
-
-function createFinalIndex() {
   var randomIndex = random(0, allBusMall.length - 1);
 
   while (recentRandomNumbers.includes(randomIndex)) {
@@ -89,10 +66,47 @@ function createFinalIndex() {
     recentRandomNumbers.shift();
   }
 
-  return randomIndex;
+  allBusMall[randomIndex].views++;
+
+  busMallOneEl.src = allBusMall[randomIndex].filepath;
+  busMallOneEl.alt = allBusMall[randomIndex].name;
+  busMallOneEl.title = allBusMall[randomIndex].name;
+
+
+  while (recentRandomNumbers.includes(randomIndex)) {
+    randomIndex = random(0, allBusMall.length - 1);
+  }
+
+  recentRandomNumbers.push(randomIndex);
+
+  if (recentRandomNumbers.length > 6) {
+    recentRandomNumbers.shift();
+  }
+
+  allBusMall[randomIndex].views++;
+
+  busMallTwoEl.src = allBusMall[randomIndex].filepath;
+  busMallTwoEl.alt = allBusMall[randomIndex].name;
+  busMallTwoEl.title = allBusMall[randomIndex].name;
+
+  randomIndex = random(0, allBusMall.length - 1);
+
+  while (recentRandomNumbers.includes(randomIndex)) {
+    randomIndex = random(0, allBusMall.length - 1);
+  }
+
+  recentRandomNumbers.push(randomIndex);
+
+  if (recentRandomNumbers.length > 6) {
+    recentRandomNumbers.shift();
+  }
+
+  allBusMall[randomIndex].views++;
+
+  busMallThreeEl.src = allBusMall[randomIndex].filepath;
+  busMallThreeEl.alt = allBusMall[randomIndex].name;
+  busMallThreeEl.title = allBusMall[randomIndex].name;
 }
-
-
 
 function renderBestBusMall() {
   var bestBusMall;
@@ -146,6 +160,7 @@ function handleClick(e) {
   render();
 
 }
+render();
 
 var ctx = canvasEl.getContext('2d');
 
@@ -218,14 +233,14 @@ function locStorBusMall() {
 
   //Stringify BusMall
   var stringifyedBusMall = JSON.stringify(allBusMall);
-  //console.log('My stringifyed BusMall is' + stringifyedBusMall);
+  console.log('My stringifyed BusMall is' + stringifyedBusMall);
   //Store it in local storage
   localStorage.setItem('BusMall', stringifyedBusMall);
-  //console.log('SetItem storage' + localStorage);
+  console.log('SetItem storage' + localStorage);
 }
 
 var localStorageBusMall = localStorage.getItem('BusMall');
-//console.log('GetItem storage' + localStorageBusMall);
+console.log('GetItem storage' + localStorageBusMall);
 
 var parsedBusMall = JSON.parse(localStorageBusMall);
 console.log('Parsed BusMall' + parsedBusMall);
@@ -238,4 +253,4 @@ if (localStorageBusMall) {
 }
 console.log('All bus Mall' + parsedBusMall);
 
-render();
+
