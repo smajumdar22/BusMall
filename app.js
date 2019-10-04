@@ -24,6 +24,7 @@ function BusMall(name) {
   allBusMall.push(this);
 }
 
+function createNewBusMall(){
 new BusMall('bag.jpg');
 new BusMall('banana.jpg');
 new BusMall('bathroom.jpg');
@@ -44,7 +45,7 @@ new BusMall('unicorn.jpg');
 new BusMall('usb.gif');
 new BusMall('water-can.jpg');
 new BusMall('wine-glass.jpg');
-
+}
 
 var recentRandomNumbers = [];
 
@@ -53,60 +54,47 @@ function random(min, max) {
 }
 
 function render() {
-
-  var randomIndex = random(0, allBusMall.length - 1);
-
-  while (recentRandomNumbers.includes(randomIndex)) {
-    randomIndex = random(0, allBusMall.length - 1);
-  }
-
-  recentRandomNumbers.push(randomIndex);
-
-  if (recentRandomNumbers.length > 6) {
-    recentRandomNumbers.shift();
-  }
-
-  allBusMall[randomIndex].views++;
-
-  busMallOneEl.src = allBusMall[randomIndex].filepath;
-  busMallOneEl.alt = allBusMall[randomIndex].name;
-  busMallOneEl.title = allBusMall[randomIndex].name;
-
-
-  while (recentRandomNumbers.includes(randomIndex)) {
-    randomIndex = random(0, allBusMall.length - 1);
-  }
-
-  recentRandomNumbers.push(randomIndex);
-
-  if (recentRandomNumbers.length > 6) {
-    recentRandomNumbers.shift();
-  }
-
-  allBusMall[randomIndex].views++;
-
-  busMallTwoEl.src = allBusMall[randomIndex].filepath;
-  busMallTwoEl.alt = allBusMall[randomIndex].name;
-  busMallTwoEl.title = allBusMall[randomIndex].name;
-
-  randomIndex = random(0, allBusMall.length - 1);
-
-  while (recentRandomNumbers.includes(randomIndex)) {
-    randomIndex = random(0, allBusMall.length - 1);
-  }
-
-  recentRandomNumbers.push(randomIndex);
-
-  if (recentRandomNumbers.length > 6) {
-    recentRandomNumbers.shift();
-  }
-
-  allBusMall[randomIndex].views++;
-
-  busMallThreeEl.src = allBusMall[randomIndex].filepath;
-  busMallThreeEl.alt = allBusMall[randomIndex].name;
-  busMallThreeEl.title = allBusMall[randomIndex].name;
+  
+  generateBusMall(busMallOneEl);
+  generateBusMall(busMallTwoEl);
+  generateBusMall(busMallThreeEl);
+  
 }
+
+function generateBusMall(domEl){
+  
+  var randomIndex = generateUniqueIndex();
+  
+  allBusMall[randomIndex].views++;
+  appendToDom(randomIndex,domEl);
+      
+      }
+  
+  function appendToDom(index, domEl){
+    
+    domEl.src = allBusMall[index].filepath;
+    domEl.alt = allBusMall[index].name;
+    domEl.title = allBusMall[index].name;
+    
+  }
+  
+  
+  function generateUniqueIndex(){
+    var randomIndex = random(0,allBusMall.length -1);
+    
+    while(recentRandomNumbers.includes(randomIndex)){
+      randomIndex = random(0,allBusMall.length -1)
+      
+    }
+    recentRandomNumbers.push(randomIndex);
+    
+    if(recentRandomNumbers.length >6){
+      recentRandomNumbers.shift();
+    }
+    return randomIndex;
+  }
+
+
 
 function renderBestBusMall() {
   var bestBusMall;
@@ -125,10 +113,6 @@ function renderBestBusMall() {
   var h2El = document.createElement('h2');
   h2El.textContent = `The Best BusMall is ${bestBusMall} ${topImg} with ${temp} votes.`;
   resultsEl.appendChild(h2El);
-
-  topBusMallImgEl.src = allBusMall.filepath;
-  topBusMallImgEl.alt = allBusMall.name;
-  topBusMallImgEl.title = allBusMall.name;
 
   //var topImgEl.filepath= topImg;
 
@@ -160,7 +144,6 @@ function handleClick(e) {
   render();
 
 }
-render();
 
 var ctx = canvasEl.getContext('2d');
 
@@ -233,24 +216,24 @@ function locStorBusMall() {
 
   //Stringify BusMall
   var stringifyedBusMall = JSON.stringify(allBusMall);
-  console.log('My stringifyed BusMall is' + stringifyedBusMall);
+  
   //Store it in local storage
   localStorage.setItem('BusMall', stringifyedBusMall);
-  console.log('SetItem storage' + localStorage);
+  
 }
 
 var localStorageBusMall = localStorage.getItem('BusMall');
-console.log('GetItem storage' + localStorageBusMall);
+
 
 var parsedBusMall = JSON.parse(localStorageBusMall);
-console.log('Parsed BusMall' + parsedBusMall);
+
 
 if (localStorageBusMall) {
   allBusMall = parsedBusMall;
 } else {
-  allBusMall = [];
+  createNewBusMall();
 
 }
 console.log('All bus Mall' + parsedBusMall);
 
-
+render();
